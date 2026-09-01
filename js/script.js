@@ -91,8 +91,12 @@ function showHistory() {
   transactionList.textContent = "";
   transactions.forEach((transaction) => {
     const newLi = document.createElement("li");
+    const newButton = document.createElement("button");
     const cleanDate = transaction.date.split("-");
+    newLi.dataset.id = transaction.id;
     newLi.textContent = `${transaction.description} ${currencyFormatter.format(transaction.value)} ${transaction.category} ${cleanDate[2]}/${cleanDate[1]}/${cleanDate[0]} `;
+    newButton.textContent = "Excluir";
+    newLi.appendChild(newButton);
     if (transaction.type === "receita") {
       newLi.classList.add("receita");
     } else {
@@ -100,6 +104,24 @@ function showHistory() {
     }
     transactionList.appendChild(newLi);
   });
+}
+
+function removeTransaction(event) {
+  if (event.target.tagName === "BUTTON") {
+    const searchIndex = transactions.findIndex(
+      (transaction) =>
+        transaction.id === +event.target.parentElement.dataset.id,
+    );
+    if (searchIndex === -1) {
+      return;
+    }
+    transactions.splice(searchIndex, 1);
+
+    saveTransactions();
+    calculateFinancialSummary();
+    updateFinancialSummary();
+    showHistory();
+  }
 }
 
 function getTransactions(event) {
@@ -130,6 +152,7 @@ function getTransactions(event) {
   }
 }
 transactionTypeSelect.addEventListener("change", updateCategories);
+transactionList.addEventListener("click", removeTransaction);
 form.addEventListener("submit", getTransactions);
 loadTransactions();
 updateCategories();
