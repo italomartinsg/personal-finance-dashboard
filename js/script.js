@@ -10,7 +10,17 @@ const categoriesByType = {
   receita: ["Salário", "Freelance", "Investimentos"],
   despesa: ["Moradia", "Alimentação", "Lazer", "Transporte"],
 };
+const currencyFormatter = new Intl.NumberFormat("pt-BR", {
+  style: "currency",
+  currency: "BRL",
+});
+let totalExpense = 0;
+let totalRevenue = 0;
+let totalBalance = totalRevenue - totalExpense;
 const transactionList = document.querySelector(".transacao-lista");
+const valueRevenue = document.querySelector(".valor-receita");
+const valueExpense = document.querySelector(".valor-despesa");
+const valueBalance = document.querySelector(".valor-total");
 
 const transactions = [
   {
@@ -27,6 +37,22 @@ const transactions = [
     value: 253.94,
     type: "despesa",
     category: "Lazer",
+    date: "2026-07-02",
+  },
+  {
+    id: 3,
+    description: "Cinema",
+    value: 100,
+    type: "despesa",
+    category: "Lazer",
+    date: "2026-07-02",
+  },
+  {
+    id: 4,
+    description: "Bet365",
+    value: 230,
+    type: "receita",
+    category: "Investimentos",
     date: "2026-07-02",
   },
 ];
@@ -56,12 +82,35 @@ function updateCategories() {
     transactionCategorySelect.appendChild(newOption);
   });
 }
+function calculateFinancialSummary() {
+  const expense = transactions.filter(
+    (transaction) => transaction.type === "despesa",
+  );
+  const revenue = transactions.filter(
+    (transaction) => transaction.type === "receita",
+  );
+  totalRevenue = revenue.reduce((accumulator, currentValue) => {
+    accumulator += currentValue.value;
+    return accumulator;
+  }, 0);
+  totalExpense = expense.reduce((accumulator, currentValue) => {
+    accumulator += currentValue.value;
+    return accumulator;
+  }, 0);
+  totalBalance = +(totalRevenue - totalExpense).toFixed(2);
+}
+function updateFinancialSummary() {
+  valueRevenue.textContent = currencyFormatter.format(totalRevenue);
+  valueExpense.textContent = currencyFormatter.format(totalExpense);
+  valueBalance.textContent = currencyFormatter.format(totalBalance);
+}
+
 function showHistory() {
   transactionList.textContent = "";
   transactions.forEach((transaction) => {
     const newLi = document.createElement("li");
     const cleanDate = transaction.date.split("-");
-    newLi.textContent = `${transaction.description} R$ ${transaction.value.toFixed(2)} ${transaction.category} ${cleanDate[2]}/${cleanDate[1]}/${cleanDate[0]} `;
+    newLi.textContent = `${transaction.description} ${currencyFormatter.format(transaction.value)} ${transaction.category} ${cleanDate[2]}/${cleanDate[1]}/${cleanDate[0]} `;
     if (transaction.type === "receita") {
       newLi.classList.add("receita");
     } else {
@@ -93,9 +142,13 @@ function getTransactions(event) {
     inputValue.value = "";
     inputDate.value = "";
     showHistory();
+    calculateFinancialSummary();
+    updateFinancialSummary();
   }
 }
 transactionTypeSelect.addEventListener("change", updateCategories);
 form.addEventListener("submit", getTransactions);
 updateCategories();
 showHistory();
+calculateFinancialSummary();
+updateFinancialSummary();
