@@ -5,6 +5,7 @@ const transactionTypeSelect = document.querySelector("#tipo-transacao");
 const transactionCategorySelect = document.querySelector(
   "#categoria-transacao",
 );
+
 const inputDate = document.querySelector("#data");
 const categoriesByType = {
   receita: ["Salário", "Freelance", "Investimentos"],
@@ -22,40 +23,7 @@ const valueRevenue = document.querySelector(".valor-receita");
 const valueExpense = document.querySelector(".valor-despesa");
 const valueBalance = document.querySelector(".valor-total");
 
-const transactions = [
-  {
-    id: 1,
-    description: "Mercado",
-    value: 100,
-    type: "receita",
-    category: "Salário",
-    date: "2026-08-23",
-  },
-  {
-    id: 2,
-    description: "Shopping",
-    value: 253.94,
-    type: "despesa",
-    category: "Lazer",
-    date: "2026-07-02",
-  },
-  {
-    id: 3,
-    description: "Cinema",
-    value: 100,
-    type: "despesa",
-    category: "Lazer",
-    date: "2026-07-02",
-  },
-  {
-    id: 4,
-    description: "Bet365",
-    value: 230,
-    type: "receita",
-    category: "Investimentos",
-    date: "2026-07-02",
-  },
-];
+const transactions = [];
 
 function idGenerator() {
   const highestID = transactions.reduce((accumulator, currentValue) => {
@@ -105,6 +73,20 @@ function updateFinancialSummary() {
   valueBalance.textContent = currencyFormatter.format(totalBalance);
 }
 
+function saveTransactions() {
+  const transactionString = JSON.stringify(transactions);
+  localStorage.setItem("transactions", transactionString);
+}
+function loadTransactions() {
+  const storagedTransactions = localStorage.getItem("transactions");
+  if (!storagedTransactions) {
+    return;
+  } else {
+    const storagedObj = JSON.parse(storagedTransactions);
+    transactions.push(...storagedObj);
+  }
+}
+
 function showHistory() {
   transactionList.textContent = "";
   transactions.forEach((transaction) => {
@@ -144,10 +126,12 @@ function getTransactions(event) {
     showHistory();
     calculateFinancialSummary();
     updateFinancialSummary();
+    saveTransactions();
   }
 }
 transactionTypeSelect.addEventListener("change", updateCategories);
 form.addEventListener("submit", getTransactions);
+loadTransactions();
 updateCategories();
 showHistory();
 calculateFinancialSummary();
