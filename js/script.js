@@ -35,7 +35,11 @@ const allCategories = [
 ];
 const transactions = [];
 const financialChart = document.querySelector("#financial-chart");
+const expensesCategoryChart = document.querySelector(
+  "#expenses-category-chart",
+);
 let chart;
+let categoryChart;
 function idGenerator() {
   const highestID = transactions.reduce((accumulator, currentValue) => {
     if (accumulator < currentValue.id) {
@@ -175,6 +179,7 @@ function removeTransaction(event) {
     calculateFinancialSummary();
     updateFinancialSummary();
     updateChart();
+    updateCategoryChart();
     filterTransactions();
   }
 }
@@ -204,6 +209,7 @@ function getTransactions(event) {
     calculateFinancialSummary();
     updateFinancialSummary();
     updateChart();
+    updateCategoryChart();
     saveTransactions();
   }
 }
@@ -242,11 +248,67 @@ function createChart() {
     },
   });
 }
+function createCategoryChart() {
+  const categoryData = getExpensesByCategory();
+
+  categoryChart = new Chart(expensesCategoryChart, {
+    type: "doughnut",
+
+    data: {
+      labels: categoryData.labels,
+
+      datasets: [
+        {
+          label: "Despesas por categoria",
+          data: categoryData.values,
+        },
+      ],
+    },
+  });
+}
 function updateChart() {
   chart.data.datasets[0].data = [totalRevenue, totalExpense];
 
   chart.update();
 }
+function updateCategoryChart() {
+  const categoryData = getExpensesByCategory();
+
+  categoryChart.data.labels = categoryData.labels;
+  categoryChart.data.datasets[0].data = categoryData.values;
+
+  categoryChart.update();
+}
+function getExpensesByCategory() {
+  console.log(transactions);
+  console.log("quantidade total:", transactions.length);
+
+  const expenses = transactions.filter((transaction) => {
+    console.log(transaction.type, transaction.type === "despesa");
+
+    return transaction.type === "despesa";
+  });
+
+  console.log("expenses:", expenses);
+
+  const expensesByCategory = expenses.reduce((accumulator, transaction) => {
+    if (!accumulator[transaction.category]) {
+      accumulator[transaction.category] = 0;
+    }
+
+    accumulator[transaction.category] += transaction.value;
+
+    return accumulator;
+  }, {});
+  const labels = Object.keys(expensesByCategory);
+  const values = Object.values(expensesByCategory);
+
+  return {
+    labels,
+    values,
+  };
+}
+
 transactionTypeSelect.addEventListener("change", getCategories);
 filterTypeSelect.addEventListener("change", getCategories);
 transactionList.addEventListener("click", removeTransaction);
@@ -263,5 +325,8 @@ updateCategories(allCategories, filterCategorySelect);
 filterTransactions();
 calculateFinancialSummary();
 updateFinancialSummary();
+getExpensesByCategory();
 createChart();
+createCategoryChart();
 console.log(getChartData(totalRevenue, totalExpense));
+console.log(getExpensesByCategory());
