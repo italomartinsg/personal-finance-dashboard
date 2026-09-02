@@ -48,15 +48,34 @@
       <input type="date" id="data" name="data">
       <button type="submit">Enviar</button>
     </form>
+
+    <div class="filtros-transacao">
+      <label for="filtro-tipo-transacao">Filtrar por:</label>
+      <select name="filtro-tipo-transacao" id="filtro-tipo-transacao">
+        <option value="todos">Todos</option>
+        <option value="receita">Receita</option>
+        <option value="despesa">Despesa</option>
+      </select>
+      <label for="filtro-categoria-transacao">Categoria:</label>
+      <select name="filtro-categoria-transacao" id="filtro-categoria-transacao">
+      </select>
+      <label for="filtro-data">Data:</label>
+      <input type="date" id="filtro-data" name="filtro-data">
+      <button type="button" class="limpar-filtros">Limpar filtros</button>
+    </div>
+
     <div class="historico-transacao">
       <h2 class="titulo-historico">Histórico de Transações</h2>
       <ul class="transacao-lista"></ul>
     </div>
+
     <div class="grafico">
     </div>
   </div>
 
+
   <script src="./js/script.js"></script>
+
 </body>
 
 </html>

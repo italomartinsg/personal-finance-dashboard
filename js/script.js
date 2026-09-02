@@ -22,7 +22,17 @@ const transactionList = document.querySelector(".transacao-lista");
 const valueRevenue = document.querySelector(".valor-receita");
 const valueExpense = document.querySelector(".valor-despesa");
 const valueBalance = document.querySelector(".valor-total");
-
+const filterTypeSelect = document.querySelector("#filtro-tipo-transacao");
+const filterCategorySelect = document.querySelector(
+  "#filtro-categoria-transacao",
+);
+const filterDate = document.querySelector("#filtro-data");
+const btnClearFilters = document.querySelector(".limpar-filtros");
+const allCategories = [
+  "todos",
+  ...categoriesByType["receita"],
+  ...categoriesByType["despesa"],
+];
 const transactions = [];
 
 function idGenerator() {
@@ -36,18 +46,35 @@ function idGenerator() {
   return highestID + 1;
 }
 
-function updateCategories() {
-  const transactionValues = categoriesByType[transactionTypeSelect.value];
+function getCategories(event) {
+  if (event.target.name === "tipo-transacao") {
+    updateCategories(
+      categoriesByType[transactionTypeSelect.value],
+      transactionCategorySelect,
+    );
+  } else if (event.target.name === "filtro-tipo-transacao") {
+    if (filterTypeSelect.value === "todos") {
+      updateCategories(allCategories, filterCategorySelect);
+      filterTransactions();
+    } else {
+      updateCategories(
+        ["todos", ...categoriesByType[filterTypeSelect.value]],
+        filterCategorySelect,
+      );
+      filterTransactions();
+    }
+  }
+}
 
-  transactionCategorySelect.textContent = "";
-
+function updateCategories(transactionValues, categorySelect) {
+  categorySelect.textContent = "";
   transactionValues.forEach((type) => {
     const newOption = document.createElement("option");
 
     newOption.value = type;
-    newOption.textContent = type;
+    newOption.textContent = type.charAt(0).toUpperCase() + type.slice(1);
 
-    transactionCategorySelect.appendChild(newOption);
+    categorySelect.appendChild(newOption);
   });
 }
 function calculateFinancialSummary() {
@@ -86,10 +113,36 @@ function loadTransactions() {
     transactions.push(...storagedObj);
   }
 }
+function filterTransactions() {
+  let filteredTransactions = transactions;
 
-function showHistory() {
+  if (filterTypeSelect.value !== "todos") {
+    filteredTransactions = filteredTransactions.filter(
+      (transaction) => transaction.type === filterTypeSelect.value,
+    );
+  }
+  if (filterCategorySelect.value !== "todos") {
+    filteredTransactions = filteredTransactions.filter(
+      (transaction) => transaction.category === filterCategorySelect.value,
+    );
+  }
+
+  if (filterDate.value) {
+    filteredTransactions = filteredTransactions.filter(
+      (transaction) => transaction.date === filterDate.value,
+    );
+  }
+  showHistory(filteredTransactions);
+}
+function clearFilters() {
+  filterTypeSelect.value = "todos";
+  filterDate.value = "";
+  updateCategories(allCategories, filterCategorySelect);
+  filterTransactions();
+}
+function showHistory(transactionsToShow) {
   transactionList.textContent = "";
-  transactions.forEach((transaction) => {
+  transactionsToShow.forEach((transaction) => {
     const newLi = document.createElement("li");
     const newButton = document.createElement("button");
     const cleanDate = transaction.date.split("-");
@@ -120,7 +173,7 @@ function removeTransaction(event) {
     saveTransactions();
     calculateFinancialSummary();
     updateFinancialSummary();
-    showHistory();
+    filterTransactions();
   }
 }
 
@@ -145,17 +198,25 @@ function getTransactions(event) {
     inputDescription.value = "";
     inputValue.value = "";
     inputDate.value = "";
-    showHistory();
+    filterTransactions();
     calculateFinancialSummary();
     updateFinancialSummary();
     saveTransactions();
   }
 }
-transactionTypeSelect.addEventListener("change", updateCategories);
+transactionTypeSelect.addEventListener("change", getCategories);
+filterTypeSelect.addEventListener("change", getCategories);
 transactionList.addEventListener("click", removeTransaction);
+filterCategorySelect.addEventListener("change", filterTransactions);
+filterDate.addEventListener("change", filterTransactions);
+btnClearFilters.addEventListener("click", clearFilters);
 form.addEventListener("submit", getTransactions);
 loadTransactions();
-updateCategories();
-showHistory();
+updateCategories(
+  categoriesByType[transactionTypeSelect.value],
+  transactionCategorySelect,
+);
+updateCategories(allCategories, filterCategorySelect);
+filterTransactions();
 calculateFinancialSummary();
 updateFinancialSummary();
