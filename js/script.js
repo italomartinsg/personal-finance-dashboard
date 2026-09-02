@@ -34,7 +34,8 @@ const allCategories = [
   ...categoriesByType["despesa"],
 ];
 const transactions = [];
-
+const financialChart = document.querySelector("#financial-chart");
+let chart;
 function idGenerator() {
   const highestID = transactions.reduce((accumulator, currentValue) => {
     if (accumulator < currentValue.id) {
@@ -173,6 +174,7 @@ function removeTransaction(event) {
     saveTransactions();
     calculateFinancialSummary();
     updateFinancialSummary();
+    updateChart();
     filterTransactions();
   }
 }
@@ -201,8 +203,49 @@ function getTransactions(event) {
     filterTransactions();
     calculateFinancialSummary();
     updateFinancialSummary();
+    updateChart();
     saveTransactions();
   }
+}
+function getChartData(revenue, expense) {
+  const financialData = {
+    revenue,
+    expense,
+  };
+
+  return financialData;
+}
+
+function createChart() {
+  const financialData = getChartData(totalRevenue, totalExpense);
+
+  const labels = ["Receitas", "Despesas"];
+
+  const values = [financialData.revenue, financialData.expense];
+
+  chart = new Chart(financialChart, {
+    type: "pie",
+
+    data: {
+      labels: labels,
+
+      datasets: [
+        {
+          label: "Resumo financeiro",
+          data: values,
+          backgroundColor: [
+            "rgba(231, 76, 60, 1.0)",
+            "rgba(46, 204, 113, 1.0)",
+          ],
+        },
+      ],
+    },
+  });
+}
+function updateChart() {
+  chart.data.datasets[0].data = [totalRevenue, totalExpense];
+
+  chart.update();
 }
 transactionTypeSelect.addEventListener("change", getCategories);
 filterTypeSelect.addEventListener("change", getCategories);
@@ -220,3 +263,5 @@ updateCategories(allCategories, filterCategorySelect);
 filterTransactions();
 calculateFinancialSummary();
 updateFinancialSummary();
+createChart();
+console.log(getChartData(totalRevenue, totalExpense));
