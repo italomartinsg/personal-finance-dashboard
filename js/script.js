@@ -240,8 +240,8 @@ function createChart() {
           label: "Resumo financeiro",
           data: values,
           backgroundColor: [
-            "rgba(231, 76, 60, 1.0)",
             "rgba(46, 204, 113, 1.0)",
+            "rgba(231, 76, 60, 1.0)",
           ],
         },
       ],
@@ -280,16 +280,9 @@ function updateCategoryChart() {
   categoryChart.update();
 }
 function getExpensesByCategory() {
-  console.log(transactions);
-  console.log("quantidade total:", transactions.length);
-
   const expenses = transactions.filter((transaction) => {
-    console.log(transaction.type, transaction.type === "despesa");
-
     return transaction.type === "despesa";
   });
-
-  console.log("expenses:", expenses);
 
   const expensesByCategory = expenses.reduce((accumulator, transaction) => {
     if (!accumulator[transaction.category]) {
@@ -325,8 +318,6 @@ updateCategories(allCategories, filterCategorySelect);
 filterTransactions();
 calculateFinancialSummary();
 updateFinancialSummary();
-getExpensesByCategory();
+
 createChart();
 createCategoryChart();
-console.log(getChartData(totalRevenue, totalExpense));
-console.log(getExpensesByCategory());
