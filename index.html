@@ -87,21 +87,31 @@
     </div>
 
     <h2 class="titulo-secao">Histórico de Transações</h2>
-    <div class="historico-transacao">
+    <div class="dashboard-conteudo">
+      <div class="historico-transacao">
 
-      <ul class="transacao-lista"></ul>
+        <ul class="transacao-lista"></ul>
+      </div>
+
+      <div class="grafico">
+        <div class="grafico-card">
+          <h3 class="titulo-card">Receitas x Despesas</h3>
+          <canvas id="financial-chart"></canvas>
+        </div>
+        <div class="grafico-card">
+          <h3 class="titulo-card">Receitas por Categoria</h3>
+          <canvas id="revenues-category-chart"></canvas>
+        </div>
+        <div class="grafico-card">
+          <h3 class="titulo-card">Despesas por Categoria</h3>
+          <canvas id="expenses-category-chart"></canvas>
+        </div>
+
+      </div>
     </div>
 
-    <div class="grafico">
-      <canvas id="financial-chart"></canvas>
-      <canvas id="revenues-category-chart"></canvas>
-      <canvas id="expenses-category-chart"></canvas>
-
-    </div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="./js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="./js/script.js"></script>
 
 </body>
 

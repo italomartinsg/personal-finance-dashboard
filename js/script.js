@@ -329,38 +329,32 @@ function createChart() {
 
           backgroundColor: [
             "rgba(46, 204, 113, 1.0)",
-            "rgba(231, 76, 60, 1.0)",
+            "rgba(231, 76, 80, 1.0)",
           ],
         },
       ],
     },
-  });
-}
-
-function createCategoryChart() {
-  const categoryData = getExpensesByCategory();
-
-  categoryChart = new Chart(expensesCategoryChart, {
-    type: "doughnut",
-
-    data: {
-      labels: categoryData.labels,
-
-      datasets: [
-        {
-          label: "Despesas por categoria",
-          data: categoryData.values,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: "bottom",
+          labels: {
+            font: {
+              size: 11,
+            },
+          },
         },
-      ],
+      },
     },
   });
 }
-
 function createRevenueCategoryChart() {
   const categoryData = getRevenuesByCategory();
 
   revenueCategoryChart = new Chart(revenuesCategoryChart, {
-    type: "doughnut",
+    type: "pie",
 
     data: {
       labels: categoryData.labels,
@@ -372,9 +366,55 @@ function createRevenueCategoryChart() {
         },
       ],
     },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: "bottom",
+          labels: {
+            font: {
+              size: 11,
+            },
+          },
+        },
+      },
+    },
   });
 }
 
+function createCategoryChart() {
+  const categoryData = getExpensesByCategory();
+
+  categoryChart = new Chart(expensesCategoryChart, {
+    type: "pie",
+
+    data: {
+      labels: categoryData.labels,
+
+      datasets: [
+        {
+          label: "Despesas por categoria",
+          data: categoryData.values,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: "bottom",
+          labels: {
+            font: {
+              size: 11,
+            },
+          },
+        },
+      },
+    },
+  });
+}
 function updateRevenueCategoryChart() {
   const categoryData = getRevenuesByCategory();
 
