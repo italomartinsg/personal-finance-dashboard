@@ -1,0 +1,264 @@
+/*
+Fundo da página:        #F4F6F8
+Superfície/cards:       #FFFFFF
+Texto principal:        #1F2937
+Texto secundário:       #6B7280
+Bordas:                 #E5E7EB
+
+Receita:                #16A34A
+Despesa:                #DC2626
+Saldo / cor principal:  #2563EB
+
+Hover azul:             #1D4ED8
+Fundo suave verde:      #F0FDF4
+Fundo suave vermelho:   #FEF2F2
+Fundo suave azul:       #EFF6FF
+
+-------------> Tipografia <-----------------
+
+H1:                 32px / 700
+Título dos cards:   14px / 500
+Valor dos cards:    24px / 700
+H2 das seções:      20px / 600
+Labels:             14px / 500
+Inputs:             14–16px
+Histórico:          14px
+
+
+---------------> Espaçamento <---------------------
+4px
+8px
+12px
+16px
+24px
+32px
+48px
+
+*/
+
+* {
+  box-sizing: border-box;
+}
+body {
+  background: #f4f6f8;
+  font-family: "Inter", sans-serif;
+  color: #1f2937;
+  margin: 0px;
+  padding: 0px;
+}
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 24px;
+  margin-top: 16px;
+}
+
+.resumo-financeiro {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+}
+
+.titulo-principal {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.resumo-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 24px;
+}
+.titulo-card {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+  margin: 0 0 8px;
+}
+
+.valor-card {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+}
+.valor-receita {
+  color: #16a34a;
+}
+
+.valor-despesa {
+  color: #dc2626;
+}
+.valor-total {
+  color: #2563eb;
+}
+
+.titulo-secao {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 24px;
+  margin-top: 24px;
+}
+
+.campo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.campo-form label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+input,
+select {
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 14px;
+}
+
+input:focus,
+select:focus {
+  border-color: #2563eb;
+  outline: 1px solid #2563eb;
+}
+
+.btn-enviar {
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  height: 42px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  align-self: end;
+}
+.btn-enviar:hover {
+  background: #1d4ed8;
+}
+
+.filtros-transacao {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 16px;
+
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 24px;
+  margin-top: 24px;
+}
+.campo-filtro {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.limpar-filtros {
+  background-color: #ffffff;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  height: 42px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  align-self: end;
+}
+.limpar-filtros:hover {
+  background: #f9fafb;
+}
+
+.historico-transacao {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 24px;
+  margin-top: 24px;
+}
+.transacao-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.transacao-lista li {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 14px;
+}
+.transacao-lista li:last-child {
+  border-bottom: none;
+}
+
+.transacao-descricao {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.transacao-valor {
+  font-weight: 600;
+}
+.transacao-categoria {
+  color: #6b7280;
+}
+
+.transacao-data {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.receita .transacao-valor {
+  color: #16a34a;
+}
+.despesa .transacao-valor {
+  color: #dc2626;
+}
+
+.btn-excluir {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-excluir:hover {
+  background: #fee2e2;
+}
+
+.btn-excluir[data-confirm="true"] {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #dc2626;
+}
+.btn-excluir[data-confirm="true"]:hover {
+  background: #b91c1c;
+  border-color: #b91c1c;
+}

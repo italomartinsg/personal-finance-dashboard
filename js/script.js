@@ -191,11 +191,36 @@ function showHistory(transactionsToShow) {
 
     newLi.dataset.id = transaction.id;
 
-    newLi.textContent = `${transaction.description} ${currencyFormatter.format(transaction.value)} ${transaction.category} ${cleanDate[2]}/${cleanDate[1]}/${cleanDate[0]} `;
+    Object.entries(transaction).forEach(([key, value]) => {
+      let newSpan = document.createElement("span");
+      switch (key) {
+        case "description":
+          newSpan.textContent = value;
+          newSpan.classList.add("transacao-descricao");
+          newLi.appendChild(newSpan);
+          break;
+        case "value":
+          newSpan.textContent = currencyFormatter.format(value);
+          newSpan.classList.add("transacao-valor");
+          newLi.appendChild(newSpan);
+          break;
+        case "category":
+          newSpan.textContent = value;
+          newSpan.classList.add("transacao-categoria");
+          newLi.appendChild(newSpan);
+          break;
+        case "date":
+          newSpan.textContent = `${cleanDate[2]}/${cleanDate[1]}/${cleanDate[0]}`;
+          newSpan.classList.add("transacao-data");
+          newLi.appendChild(newSpan);
+          break;
 
+        default:
+      }
+    });
     newButton.textContent = "Excluir";
     newButton.setAttribute("data-confirm", "false");
-
+    newButton.classList.add("btn-excluir");
     newLi.appendChild(newButton);
 
     if (transaction.type === "receita") {
