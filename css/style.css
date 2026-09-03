@@ -267,3 +267,105 @@ select:focus {
   margin: 0 0 12px;
   text-align: center;
 }
+
+@media (max-width: 900px) {
+  .resumo-financeiro {
+    grid-template-columns: 1fr;
+  }
+
+  form {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .filtros-transacao {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .dashboard-conteudo {
+    grid-template-columns: 1fr;
+  }
+
+  .grafico {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .container {
+    padding: 16px;
+  }
+
+  .titulo-principal {
+    font-size: 26px;
+  }
+
+  form {
+    grid-template-columns: 1fr;
+  }
+
+  .filtros-transacao {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-conteudo {
+    grid-template-columns: 1fr;
+    min-width: 0;
+  }
+
+  .historico-transacao {
+    min-width: 0;
+  }
+
+  .transacao-lista li {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "descricao valor"
+      "categoria data"
+      ". botao";
+    gap: 10px 16px;
+    padding: 16px;
+  }
+
+  .transacao-descricao {
+    grid-area: descricao;
+  }
+
+  .transacao-valor {
+    grid-area: valor;
+    text-align: right;
+  }
+
+  .transacao-categoria {
+    grid-area: categoria;
+  }
+
+  .transacao-data {
+    grid-area: data;
+    text-align: right;
+  }
+
+  .btn-excluir {
+    grid-area: botao;
+    justify-self: end;
+    width: auto;
+  }
+
+  .grafico {
+    grid-template-columns: 1fr;
+    min-width: 0;
+  }
+
+  .grafico-card {
+    min-width: 0;
+    width: auto;
+    height: 220px;
+  }
+
+  .grafico-card:first-child {
+    grid-column: auto;
+    height: 220px;
+  }
+
+  .grafico-card canvas {
+    max-width: 100%;
+  }
+}
