@@ -5,7 +5,7 @@ const transactionTypeSelect = document.querySelector("#tipo-transacao");
 const transactionCategorySelect = document.querySelector(
   "#categoria-transacao",
 );
-
+const errorMessage = document.querySelector(".error-mensagem");
 const inputDate = document.querySelector("#data");
 const categoriesByType = {
   receita: ["Salário", "Freelance", "Investimentos"],
@@ -235,6 +235,8 @@ function showHistory(transactionsToShow) {
 
 function removeTransaction(event) {
   if (event.target.tagName === "BUTTON") {
+    const btnRemoveClicked = document.querySelector('[data-confirm="true"]');
+
     if (event.target.dataset.confirm === "true") {
       const searchIndex = transactions.findIndex(
         (transaction) =>
@@ -259,15 +261,26 @@ function removeTransaction(event) {
     }
 
     if (event.target.dataset.confirm === "false") {
+      if (btnRemoveClicked) {
+        btnRemoveClicked.dataset.confirm = "false";
+        btnRemoveClicked.textContent = "Excluir";
+      }
       event.target.textContent = "Confirmar?";
       event.target.dataset.confirm = "true";
+    }
+  } else {
+    const btnRemoveClicked = document.querySelector('[data-confirm="true"]');
+
+    if (btnRemoveClicked) {
+      btnRemoveClicked.dataset.confirm = "false";
+      btnRemoveClicked.textContent = "Excluir";
     }
   }
 }
 
 function getTransactions(event) {
   event.preventDefault();
-
+  errorMessage.style.display = "none";
   const description = inputDescription.value.trim();
   const value = +inputValue.value;
   const type = transactionTypeSelect.value;
@@ -297,6 +310,8 @@ function getTransactions(event) {
     updateCategoryChart();
     updateRevenueCategoryChart();
     saveTransactions();
+  } else {
+    errorMessage.style.display = "block";
   }
 }
 
@@ -326,7 +341,6 @@ function createChart() {
         {
           label: "Resumo financeiro",
           data: values,
-
           backgroundColor: [
             "rgba(46, 204, 113, 1.0)",
             "rgba(231, 76, 80, 1.0)",
@@ -363,6 +377,7 @@ function createRevenueCategoryChart() {
         {
           label: "Receitas por categoria",
           data: categoryData.values,
+          backgroundColor: ["#2563eb", "#16a34a", "#f59e0b"],
         },
       ],
     },
@@ -396,6 +411,7 @@ function createCategoryChart() {
         {
           label: "Despesas por categoria",
           data: categoryData.values,
+          backgroundColor: ["#2563eb", "#16a34a", "#f59e0b"],
         },
       ],
     },
