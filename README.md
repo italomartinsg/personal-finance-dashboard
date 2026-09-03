@@ -73,7 +73,7 @@ Acesse a pasta do projeto e abra o arquivo `index.html` no navegador.
 
 Não é necessário instalar dependências, pois o projeto utiliza JavaScript Vanilla e o Chart.js é carregado via CDN.
 
-## 👨 Autor
+## Autor
 
 Desenvolvido por **Ítalo Martins** como parte dos meus estudos e prática em desenvolvimento Front-End com JavaScript.
 
