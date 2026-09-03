@@ -6,6 +6,12 @@ A aplicação permite cadastrar e excluir transações, acompanhar o saldo finan
 
 O projeto foi desenvolvido com foco na prática dos fundamentos de JavaScript, manipulação do DOM, persistência de dados no navegador e construção de interfaces responsivas.
 
+## Projeto online
+
+Acesse o projeto publicado no GitHub Pages:
+
+[🔗 Ver Dashboard Financeiro](https://italomartinsg.github.io/personal-finance-dashboard/)
+
 ## Preview
 
 ![Dashboard Financeiro - Desktop](./assets/screenshots/dashboard-desktop.png)
